@@ -18,7 +18,7 @@ The data included in the database would be helpfull to draw different conclusion
 
 # To Run
  
-* Launch Vagrant VM by running `vagrant up`,and after running you can the log in with `vagrant ssh`
+* Launch Vagrant VM by running `vagrant up`, and after running you can the log in with `vagrant ssh`
 
 * Load the data into database by using the command `psql -d news -f newsdata.sql` to connect to a database named *news* and run the necessary SQL statements.
 
