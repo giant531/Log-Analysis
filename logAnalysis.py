@@ -27,9 +27,6 @@ output2['subject'] = "The most popular article authors of all time are:\n"
 output3['subject'] = "The days on which more than 1% of requests lead to"
 "errors are:\n"
 
-output3['subject'] = "The days on which more than 1% of requests lead to errors are:\n"
-
-
 
 def fire_query(query):
     db = psycopg2.connect(database=dbname)
