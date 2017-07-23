@@ -16,6 +16,9 @@ The data included in the database would be helpfull to draw different conclusion
 * Install VirtualBox and Vagrant.
 * Clone this repository.
 
+# Dowloading
+* Download the [newsdata.sql](https://d17h27t6h515a5.cloudfront.net/topher/2016/August/57b5f748_newsdata/newsdata.zip) file.
+
 # To Run
  
 * Launch Vagrant VM by running `vagrant up`, and after running you can the log in with `vagrant ssh`
@@ -25,11 +28,11 @@ The data included in the database would be helpfull to draw different conclusion
 
 * Create a view by running the following SQL statement `psql -d news` and then fire the below SQL statement:
 
-'''
-CREATE VIEW percent_error_view AS SELECT date(time),
-round(100.00 * sum(CASE WHEN log.status = '404 NOT FOUND' THEN 1 ELSE 0 END)/ count(log.status), 2)
-AS percenterror FROM log GROUP BY date(time) ORDER BY  PercentError DESC;
-'''
+```
+  CREATE VIEW percent_error_view AS SELECT date(time),
+  round(100.00 * sum(CASE WHEN log.status = '404 NOT FOUND' THEN 1 ELSE 0 END)/ count(log.status), 2)
+  AS percenterror FROM log GROUP BY date(time) ORDER BY  PercentError DESC;
+```
 
 To execute the program, run `python newsdata.py` from the command line.
 
