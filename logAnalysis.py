@@ -1,29 +1,20 @@
-#Load the data in local database using the command only once i.e.initially:
-#psql -d news -f newsdata.sql
-#Use psql -d news to connect to database.
-#CREATE VIEW article_author_view:
-    #create view article_author_view AS SELECT articles.title,
-    # count(*) AS views FROM articles, log WHERE SUBSTRING(log.path,10) = articles.slug
-    # GROUP BY articles.title ORDER BY views DESC LIMIT 3
-#CREATE VIEW percent_error_view:
-    #create view percent_error_view as select date(time),
-    #round(100.00*sum(case when status = '404 NOT FOUND' then 1 else 0 end) / count(log.status),2)
-    #AS PercentError FROM log GROUP BY date(time) ORDER BY PercentError DESC
-
 import psycopg2
-
 dbname = "news"
 
 # 1. Top three populor articles of all the time!
-query1 = """SELECT articles.title, count(*) AS views FROM articles, log WHERE SUBSTRING(log.path,10) = articles.slug  AND log.status LIKE '%200%' GROUP BY articles.title ORDER BY views DESC LIMIT 3"""
+query1 = """SELECT articles.title, count(*) AS views FROM articles,
+log WHERE SUBSTRING(log.path,10) = articles.slug AND
+log.status LIKE '%200%' GROUP BY articles.title ORDER
+BY views DESC LIMIT 3"""
 
-# 2. The most popular article authors of all time are!
-query2 = """SELECT authors.name,count(*) AS total_views FROM articles, authors, log WHERE authors.id = articles.author  AND SUBSTRING(log.path,10) = articles.slug  AND log.status LIKE '%200%' GROUP BY authors.name ORDER BY total_views DESC"""
+# 2. The most popular article authors are!
+query2 = """SELECT authors.name,count(*) AS total_views FROM articles,
+authors,log WHERE authors.id = articles.author AND SUBSTRING
+(log.path,10) = articles.slug AND log.status LIKE '%200%'
+GROUP BY authors.name ORDER BY  total_views DESC"""
 
 # 3. Days when the requests lead to an error more than 1%!
-query3 = """SELECT * FROM percent_error_view  WHERE PercentError >= 1 """
-
-
+query3 = "SELECT * FROM percent_error_view  WHERE PercentError >= 1"
 
 output1 = {}
 output2 = {}
@@ -32,6 +23,9 @@ output3 = {}
 output1['subject'] = "The most popular three articles of all time are:\n"
 
 output2['subject'] = "The most popular article authors of all time are:\n"
+
+output3['subject'] = "The days on which more than 1% of requests lead to"
+"errors are:\n"
 
 output3['subject'] = "The days on which more than 1% of requests lead to errors are:\n"
 
@@ -45,11 +39,13 @@ def fire_query(query):
     db.close()
     return result
 
+
 def display_resulted_query(output):
     print(output['subject'])
     for x in output['result']:
         print (str(x[0]) + '\t' + str(x[1]) + ' views')
     print('\n')
+
 
 def display_error(output):
     print (output3['subject'])
